@@ -60,6 +60,54 @@ export class OverlayTask extends TimerTask {
                 return;
             this.app.getTask( AutosaveTask ).runNow();
         } );
+
+        globalShortcut.register( 'num7', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'throttle', 0.05);
+        })
+
+        globalShortcut.register( 'Alt+num7', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'throttle', 0.01);
+        })
+
+        globalShortcut.register( 'num1', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'throttle', -0.05);
+        })
+
+        globalShortcut.register( 'Alt+num1', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'throttle', -0.01);
+        })
+
+        globalShortcut.register( 'num8', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'reverser', 0.05);
+        })
+
+        globalShortcut.register( 'Alt+num8', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'reverser', 0.01);
+        })
+
+        globalShortcut.register( 'num2', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'reverser', -0.05);
+        })
+
+        globalShortcut.register( 'Alt+num2', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'reverser', -0.01);
+        })
+
+        globalShortcut.register( 'num9', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'break', 0.05);
+        })
+
+        globalShortcut.register( 'Alt+num9', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'break', 0.01);
+        })
+
+        globalShortcut.register( 'num3', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'break', -0.05);
+        })
+
+        globalShortcut.register( 'Alt+num3', () => {
+            this.app.getWindow(WindowType.App).webContents.send( 'break', -0.01);
+        })
     }
 
     private unregisterShortcuts() {
@@ -68,6 +116,18 @@ export class OverlayTask extends TimerTask {
         this.shortcutsRegistered = false;
         globalShortcut.unregister( 'F1' );
         globalShortcut.unregister( 'F2' );
+        globalShortcut.unregister( 'num7');
+        globalShortcut.unregister( 'Alt+num7');
+        globalShortcut.unregister( 'num1');
+        globalShortcut.unregister( 'Alt+num1');
+        globalShortcut.unregister( 'num8');
+        globalShortcut.unregister( 'Alt+num8');
+        globalShortcut.unregister( 'num2');
+        globalShortcut.unregister( 'Alt+num2');
+        globalShortcut.unregister( 'num9');
+        globalShortcut.unregister( 'Alt+num9');
+        globalShortcut.unregister( 'num3');
+        globalShortcut.unregister( 'Alt+num3');
     }
 
     private isGameFocussed() {

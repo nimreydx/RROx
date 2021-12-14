@@ -16,7 +16,10 @@ const validChannels = [
     'set-mode',
     'dangling-injector',
     'kill-dangling-injector',
-    'get-version'
+    'get-version',
+    'throttle',
+    'reverser',
+    'break',
 ];
 
 contextBridge.exposeInMainWorld( 'ipc', {
