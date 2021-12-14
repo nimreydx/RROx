@@ -20,7 +20,7 @@ export class OverlayTask extends TimerTask {
     private minimapCorner: number;
     private shortcutsRegistered = false;
     private transparent = false;
-    private background = 1;
+    private background: number;
 
     constructor( app: RROx ) {
         super( app );

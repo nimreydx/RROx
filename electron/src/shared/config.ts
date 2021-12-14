@@ -60,7 +60,7 @@ export const schema = {
 export const accessPropertiesByDotNotation = false;
 
 export interface Schema {
-    'map.background': boolean;
+    'map.background': number;
     'minimap.enabled': boolean;
     'minimap.transparent': boolean;
     'minimap.corner': number;
