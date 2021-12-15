@@ -62,50 +62,74 @@ export class OverlayTask extends TimerTask {
         } );
 
         globalShortcut.register( 'num7', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'throttle', 0.05);
         })
 
         globalShortcut.register( 'Alt+num7', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'throttle', 0.01);
         })
 
         globalShortcut.register( 'num1', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'throttle', -0.05);
         })
 
         globalShortcut.register( 'Alt+num1', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'throttle', -0.01);
         })
 
         globalShortcut.register( 'num8', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'reverser', 0.05);
         })
 
         globalShortcut.register( 'Alt+num8', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'reverser', 0.01);
         })
 
         globalShortcut.register( 'num2', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'reverser', -0.05);
         })
 
         globalShortcut.register( 'Alt+num2', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'reverser', -0.01);
         })
 
         globalShortcut.register( 'num9', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'break', 0.05);
         })
 
         globalShortcut.register( 'Alt+num9', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'break', 0.01);
         })
 
         globalShortcut.register( 'num3', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'break', -0.05);
         })
 
         globalShortcut.register( 'Alt+num3', () => {
+            if( !this.isGameFocussed() )
+            return;
             this.app.getWindow(WindowType.App).webContents.send( 'break', -0.01);
         })
     }
