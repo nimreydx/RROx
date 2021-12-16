@@ -22,7 +22,7 @@ function throttle<P extends any[]>( fn: ( ...args: P ) => void, wait: number ): 
     }
 }
 
-export function FrameControls( { title, data, id, isVisible, onClose }: { title: string, data: Frame, id: number, isVisible: boolean, onClose: () => void } ) {
+export function FrameControls( { title, data, id, isVisible, onClose, controlEnabled }: { title: string, data: Frame, id: number, isVisible: boolean, onClose: () => void, controlEnabled: boolean } ) {
     const { Regulator, Reverser, Brake, Whistle, Generator, Compressor, BoilerPressure, WaterTemperature, FireTemperature, FuelAmount, AirPressure, WaterLevel, Speed, MaxSpeed } = data;
     
     const [ controls, setControls ] = useState<{
@@ -106,6 +106,7 @@ export function FrameControls( { title, data, id, isVisible, onClose }: { title:
                         tipFormatter={( value ) => value + '%'}
                         tooltipPlacement={'left'}
                         tooltipVisible={isVisible}
+                        disabled={!controlEnabled}
                         marks={{
                             0: '0%',
                             100: '100%'
@@ -124,6 +125,7 @@ export function FrameControls( { title, data, id, isVisible, onClose }: { title:
                         tipFormatter={( value ) => value + '%'}
                         tooltipPlacement={'left'}
                         tooltipVisible={isVisible}
+                        disabled={!controlEnabled}
                         marks={{
                             [ -100 ]: '-100%',
                             0: '0%',
@@ -142,6 +144,7 @@ export function FrameControls( { title, data, id, isVisible, onClose }: { title:
                         tipFormatter={( value ) => value + '%'}
                         tooltipPlacement={'left'}
                         tooltipVisible={isVisible}
+                        disabled={!controlEnabled}
                         marks={{
                             0: '0%',
                             100: '100%'
@@ -159,6 +162,7 @@ export function FrameControls( { title, data, id, isVisible, onClose }: { title:
                         tipFormatter={( value ) => value + '%'}
                         tooltipPlacement={'left'}
                         tooltipVisible={isVisible}
+                        disabled={!controlEnabled}
                         marks={{
                             0: '0%',
                             100: '100%'
@@ -182,6 +186,7 @@ export function FrameControls( { title, data, id, isVisible, onClose }: { title:
                         tipFormatter={( value ) => value + '%'}
                         tooltipPlacement={'left'}
                         tooltipVisible={isVisible}
+                        disabled={!controlEnabled}
                         marks={{
                             [ -100 ]: '-100%',
                             0: '0%',
@@ -200,6 +205,7 @@ export function FrameControls( { title, data, id, isVisible, onClose }: { title:
                         tipFormatter={( value ) => value + '%'}
                         tooltipPlacement={'left'}
                         tooltipVisible={isVisible}
+                        disabled={!controlEnabled}
                         marks={{
                             0: '0%',
                             100: '100%'
