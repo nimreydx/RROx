@@ -55,18 +55,21 @@ export function FrameControls( { title, data, id, isVisible, onClose, controlEna
 
     useEffect( () => {
         const throttle = window.ipc.on( 'throttle', ( event, amount ) => {
-            setControls( { ...controls, Regulator: Math.min(Math.max(Regulator + amount, 0), 1) });
-            window.ipc.send( 'set-engine-controls', id, EngineControls.REGULATOR, Math.min(Math.max(Regulator + amount, 0), 1) );
+            const value = Math.min(Math.max(Regulator + amount, 0), 1);
+            setControls( { ...controls, Regulator: value });
+            window.ipc.send( 'set-engine-controls', id, EngineControls.REGULATOR, value );
         } );
 
         const reverser = window.ipc.on( 'reverser', ( event, amount ) => {
-            setControls( { ...controls, Reverser: Math.min(Math.max(Reverser + amount, -1), 1) });
-            window.ipc.send( 'set-engine-controls', id, EngineControls.REVERSER, Math.min(Math.max(Reverser + amount, -1), 1) );
+            const value = Math.min(Math.max(Reverser + amount, -1), 1);
+            setControls( { ...controls, Reverser: value });
+            window.ipc.send( 'set-engine-controls', id, EngineControls.REVERSER, value );
         } );
 
         const breaks = window.ipc.on( 'break', ( event, amount ) => {
-            setControls( { ...controls, Brake: Math.min(Math.max(Brake + amount, 0), 1) });
-            window.ipc.send( 'set-engine-controls', id, EngineControls.BRAKE, Math.min(Math.max(Brake + amount, 0), 1) );
+            const value = Math.min(Math.max(Brake + amount, 0), 1);
+            setControls( { ...controls, Brake: value });
+            window.ipc.send( 'set-engine-controls', id, EngineControls.BRAKE, value );
         } );
 
         return () => {
