@@ -40,8 +40,10 @@ export class ReadAddressAction extends Action<bigint, [
 
         let addr = await pipe.readInt64();
 
+        this.release();
+
         if( addr === BigInt( 0 ) )
-            throw new Error( `Invalid address (${addressType}:${addressOrArrayName},${id})` );
+            throw new Error( `Invalid address (${addressType}:${addressOrArrayName},${id},${offset})` );
 
         return addr;
     }

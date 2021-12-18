@@ -2,6 +2,8 @@ declare module '*.css';
 declare module '*.png';
 declare module '*.jpg';
 declare module '*.jpeg';
+declare module '*.svg';
+declare module '*.svg?raw';
 declare module '*.exe';
 declare module '*.dll';
 
@@ -13,4 +15,5 @@ declare interface Window {
         once ( channel: string, listener: ( event: Electron.IpcRendererEvent, ...args: any[] ) => void ): () => void,
     }
     mode: 'normal' | 'overlay';
+    openBrowser: ( url: string ) => void;
 }

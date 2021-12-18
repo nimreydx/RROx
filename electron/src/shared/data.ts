@@ -8,6 +8,18 @@ export interface Frame {
     Regulator?: number;
     Reverser?: number;
     Brake?: number;
+    Whistle?: number;
+    Generator?: number;
+    Compressor?: number;
+    BoilerPressure?: number;
+    WaterTemperature?: number;
+    WaterLevel?: number;
+    AirPressure?: number;
+    FireTemperature?: number;
+    FuelAmount?: number;
+    Speed?: number;
+    MaxSpeed?: number;
+    Freight?: Storage;
 }
 
 export interface Player {
@@ -49,6 +61,7 @@ export interface WaterTower {
     ID: number;
     Location: [ X: number, Y: number, Z: number ];
     Rotation: [ Pitch: number, Yaw: number, Roll: number ];
+    Storage : Storage;
 }
 
 export interface Industry {
@@ -56,6 +69,14 @@ export interface Industry {
     Type: number;
     Location: [ X: number, Y: number, Z: number ];
     Rotation: [ Pitch: number, Yaw: number, Roll: number ];
+    Educts  : Storage[];
+    Products: Storage[];
+}
+
+export interface Storage {
+    Type: string;
+    Amount: number;
+    Max: number;
 }
 
 export interface DataChange<T = unknown> {

@@ -1,6 +1,9 @@
 import React, { createRef, useMemo, useEffect, useState } from 'react';
-import Background from "../../../../assets/images/bg.jpg";
-import TransparentBackground from "../../../../assets/images/transparentBg.png";
+import Background1 from "../../../../assets/images/bg1.jpg";
+import Background2 from "../../../../assets/images/bg2.jpg";
+import Background3 from "../../../../assets/images/bg3.jpg";
+import Background4 from "../../../../assets/images/bg4.jpg";
+import Background5 from "../../../../assets/images/bg5.jpg";
 import { Button, Tooltip } from 'antd';
 import { ZoomInOutlined, ZoomOutOutlined, AimOutlined, StopOutlined } from '@ant-design/icons';
 import { MapData, MapProperties } from './interfaces';
@@ -11,7 +14,7 @@ import { Turntable } from './Turntable';
 import { Player } from './Player';
 import SVGPanZoom from 'svg-pan-zoom';
 import { WaterTower } from './WaterTower';
-import { FirewoodDepot } from './FirewoodDepot';
+import { Industry } from './Industry';
 import { MapContext } from './context';
 
 // @ts-expect-error
@@ -25,7 +28,9 @@ export function Map( { data }: { data: MapData } ) {
 
     const [ mode, setMode ] = useState<'normal' | 'map' | 'minimap'>( window.mode === 'overlay' ? 'minimap' : 'normal' );
     const [ transparent, setTransparent ] = useState( window.mode === 'overlay' ? window.settingsStore.get( 'minimap.transparent' ) as boolean : false );
+    const [ background, setBackground ] = useState( window.settingsStore.get('map.background') ?? 1);
 
+    const [ controlEnabled, setControlEnabled ] = useState( false );
 
     useEffect(() => {
         let onMouseWheel: ( event: WheelEvent ) => void;
@@ -94,13 +99,20 @@ export function Map( { data }: { data: MapData } ) {
     }, [ svgRef.current ] );
 
     useEffect( () => {
-        const cleanup = window.ipc.on( 'set-mode', ( event, mode, transparent ) => {
+        const cleanup = window.ipc.on( 'set-mode', ( event, mode, transparent, background ) => {
             setMode( mode );
             setTransparent( transparent );
+            setBackground( background );
+        } );
+
+        
+        const cleanup2 = window.ipc.on( 'control-enabled', ( event, enabled ) => {
+            setControlEnabled( enabled );
         } );
 
         return () => {
             cleanup();
+            cleanup2();
         }
     }, [] );
 
@@ -166,25 +178,35 @@ export function Map( { data }: { data: MapData } ) {
             stopFollowing: () => setFollowing( null ),
             following,
             minimap: mode === 'minimap',
+            controlEnabled,
         }}
     >
-        <div style={{ position: 'relative', width: '100%', height: '100%', backgroundColor: window.mode === 'overlay' ? undefined : '#fefef2' }}>
+        <div style={{ position: 'relative', width: '100%', height: '100%', backgroundColor: window.mode === 'overlay' ? undefined : (background === 5 ? '#000008' : '#fefef2') }}>
             <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8000 8000" style={{ width: '100%', height: '100%' }}>
                 <defs>
-                    <pattern id="bg" x="0" y="0" width="8000" height="8000" patternUnits="userSpaceOnUse">
-                        <image x="0" y="0" width="8000" height="8000" href={Background} />
+                    <pattern id="bg1" x="0" y="0" width="8000" height="8000" patternUnits="userSpaceOnUse">
+                        <image x="0" y="0" width="8000" height="8000" href={Background1} />
                     </pattern>
-                    <pattern id="transparentBg" x="0" y="0" width="8000" height="8000" patternUnits="userSpaceOnUse">
-                        <image x="0" y="0" width="8000" height="8000" href={TransparentBackground} />
+                    <pattern id="bg2" x="0" y="0" width="8000" height="8000" patternUnits="userSpaceOnUse">
+                        <image x="0" y="0" width="8000" height="8000" href={Background2} />
+                    </pattern>
+                    <pattern id="bg3" x="0" y="0" width="8000" height="8000" patternUnits="userSpaceOnUse">
+                        <image x="0" y="0" width="8000" height="8000" href={Background3} />
+                    </pattern>
+                    <pattern id="bg4" x="0" y="0" width="8000" height="8000" patternUnits="userSpaceOnUse">
+                        <image x="0" y="0" width="8000" height="8000" href={Background4} />
+                    </pattern>
+                    <pattern id="bg5" x="0" y="0" width="8000" height="8000" patternUnits="userSpaceOnUse">
+                        <image x="0" y="0" width="8000" height="8000" href={Background5} />
                     </pattern>
                 </defs>
                 <g className={'map_viewport'}>
-                    <rect x="0" y="0" width="8000" height="8000" fill={ transparent ? 'url(#transparentBg)' : 'url(#bg)'} stroke="black" className={'map_image'} />
+                    <rect x="0" y="0" width="8000" height="8000" fill={ transparent ? 'rgba(0,0,0,0)' : 'url(#bg' + background + ')'} stroke="black" className={'map_image'} />
                     {data.Splines.filter( ( { Type } ) => !IsTrack( Type ) ).map( ( d, i ) => <Spline key={i} data={d} map={map} index={i}/> )}
+                    {data.Industries.map( ( d, i ) => <Industry key={i} data={d} map={map} index={i}/> )}
                     {data.Splines.filter( ( { Type } ) =>  IsTrack( Type ) ).map( ( d, i ) => <Spline key={i} data={d} map={map} index={i}/> )}
                     {data.Turntables.map( ( d, i ) => <Turntable key={i} data={d} map={map} index={i}/> )}
                     {data.Switches.map( ( d, i ) => <Switch key={i} data={d} map={map} index={i}/> )}
-                    {data.Industries.filter( ( d ) => d.Type === 10 ).map( ( d, i ) => <FirewoodDepot key={i} data={d} map={map} index={i}/> )}
                     {data.WaterTowers.map( ( d, i ) => <WaterTower key={i} data={d} map={map} index={i}/> )}
                     {data.Frames.map( ( d, i ) => <Frame key={i} data={d} map={map} index={i}/> )}
                     {data.Players.map( ( d, i ) => <Player key={i} data={d} map={map} index={i}/> )}

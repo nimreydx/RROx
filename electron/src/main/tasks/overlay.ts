@@ -20,6 +20,7 @@ export class OverlayTask extends TimerTask {
     private minimapCorner: number;
     private shortcutsRegistered = false;
     private transparent = false;
+    private background: number;
 
     constructor( app: RROx ) {
         super( app );
@@ -155,8 +156,9 @@ export class OverlayTask extends TimerTask {
         } ), false );
 
         this.transparent = this.app.settings.get( 'minimap.transparent' );
+        this.background = this.app.settings.get( 'map.background' );
 
-        overlay.webContents.send( 'set-mode', 'minimap', this.transparent );
+        overlay.webContents.send( 'set-mode', 'minimap', this.transparent, this.background );
 
         this.state = OverlayStates.MINIMAP;
 
@@ -172,8 +174,8 @@ export class OverlayTask extends TimerTask {
 
         const { bounds: gameBounds } = gameWindow;
 
-        let width = gameBounds.width / 3;
-        let height = gameBounds.height / 2;
+        let width = gameBounds.width / 2;
+        let height = gameBounds.height / 1.5;
         let x = gameBounds.x + gameBounds.width / 2 - width / 2;
         let y = gameBounds.y + gameBounds.height / 2 - height / 2;
 
@@ -189,7 +191,10 @@ export class OverlayTask extends TimerTask {
             height:Math.floor( height )
         } ), false );
         overlay.focus();
-        overlay.webContents.send( 'set-mode', 'map', false );
+
+        this.background = this.app.settings.get( 'map.background' );
+
+        overlay.webContents.send( 'set-mode', 'map', false, this.background );
 
         this.state = OverlayStates.MAP;
 

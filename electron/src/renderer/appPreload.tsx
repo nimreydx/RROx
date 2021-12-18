@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer, shell } from 'electron';
 import Store from 'electron-store';
 import * as config from '../shared/config';
 
@@ -9,13 +9,15 @@ const validChannels = [
     'map-update',
     'autosave',
     'update-config',
+    'control-enabled',
     'change-switch',
     'set-engine-controls',
     'get-attached-state',
     'set-attached-state',
     'set-mode',
     'dangling-injector',
-    'kill-dangling-injector'
+    'kill-dangling-injector',
+    'get-version'
 ];
 
 contextBridge.exposeInMainWorld( 'ipc', {
@@ -46,4 +48,8 @@ contextBridge.exposeInMainWorld( 'settingsStore', {
     set( key: string, val: any ) {
         return store.set( key, val );
     }
+} );
+
+contextBridge.exposeInMainWorld( 'openBrowser', ( url: string ) => {
+    shell.openExternal( url );
 } );
